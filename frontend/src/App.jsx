@@ -54,49 +54,43 @@ export default function App() {
   <h2 className="pi-h2">Projektreflektion</h2>
 
   <p className="pi-summary">
-    Detta projekt, <strong>Passenger Insight</strong>, utvecklades som ett
-    simulerat passageraranalyssystem med fokus på realtidsdata,
-    datakvalitet och systemhälsa. Backend-delen byggdes i
-    <strong> Node.js/Express</strong> med <strong>MariaDB</strong> som
-    databas, och frontend utvecklades i <strong>React</strong> med
-    dynamiska visualiseringar via <strong>Chart.js</strong>. Systemet
-    samlar in och analyserar flödesdata, identifierar incidenter samt
-    klassificerar statusnivåer i realtid (OK, Varning, Kritisk).
-  </p>
+  Detta projekt, <strong>Passenger Insight</strong>, utvecklades som ett
+  simulerat passageraranalyssystem med fokus på realtidsdata,
+  datakvalitet och systemhälsa. Backend-delen byggdes i
+  <strong>Node.js/Express</strong> med simulerad data i stället för en
+  aktiv databas, och frontend utvecklades i <strong>React</strong> med
+  dynamiska visualiseringar via <strong>Chart.js</strong>. Systemet
+  illustrerar hur passagerarflöden kan analyseras och statusnivåer
+  klassificeras i realtid (OK, Varning, Kritisk).
+</p>
 
-  <p className="pi-summary">
-    Projektet demonstrerar ett helhetstänk kring livscykelhantering,
-    incidentövervakning, teknisk felsökning och datadriven analys, 
-    kompetenser som är centrala i rollen som
-    <strong> Teknisk produktspecialist till Passageraranalyssystem</strong>
-     hos Polismyndigheten. Jag har, i mina studier samt detta projekt, arbetat med att designa robusta API:er,
-    simulera driftsscenarier, hantera databasintegritet och skapa
-    användarvänliga visualiseringar, vilket visar min förmåga att kombinera
-    teknisk precision med förståelse för verksamhetsnytta och systemdrift.
-  </p>
+<p className="pi-summary">
+  Projektet demonstrerar ett helhetstänk kring systemövervakning,
+  incidenthantering och teknisk analys, kompetenser som är centrala i
+  rollen som <strong>Teknisk produktspecialist till Passageraranalyssystem</strong>
+  hos Polismyndigheten. Jag har, genom detta projekt, arbetat med att
+  designa API:er, simulera driftsscenarier och skapa användarvänliga
+  visualiseringar som kombinerar teknisk precision med förståelse för
+  verksamhetsnytta.
+</p>
 
-  <p className="pi-summary">
-    Arbetet har gett mig praktisk erfarenhet av hur tekniska system kan
-    användas för att effektivt övervaka flöden, identifiera avvikelser och
-    förebygga incidenter. Jag har även fokuserat på skalbarhet och
-    säkerhet, där databasstrukturen och API-designen är byggda med
-    långsiktig stabilitet och spårbarhet i åtanke.  
-    Detta speglar hur Polismyndighetens IT-avdelning arbetar med
-    livscykelhantering, driftsättning och förbättringar av system med höga
-    krav på tillgänglighet, säkerhet och kvalitet.
-  </p>
+<p className="pi-summary">
+  Arbetet visar hur tekniska system kan användas för att övervaka flöden,
+  identifiera avvikelser och förebygga incidenter. Fokus har legat på
+  struktur, skalbarhet och tydlig datakommunikation, vilket speglar hur
+  Polismyndighetens IT-avdelning arbetar med livscykelhantering,
+  driftsättning och systemförbättringar.
+</p>
 
-  <p className="pi-summary">
-    Jag ser en stark koppling mellan detta projekt och rollen som
-    produktspecialist, särskilt i förmågan att samordna teknik, verksamhet
-    och användarupplevelse. Genom att arbeta nära dataflöden, analysera
-    loggar, felsöka och visualisera resultat har jag utvecklat en förståelse
-    för hur tekniska lösningar kan omsättas till konkreta förbättringar för
-    verksamheten.  
-    Det är denna kombination av teknisk kompetens, struktur och
-    kommunikationsförmåga som jag vill bidra med i rollen som
-    <strong> Teknisk produktspecialist inom Passageraranalyssystem</strong>.
-  </p>
+<p className="pi-summary">
+  Jag ser en stark koppling mellan detta projekt och rollen som
+  produktspecialist, särskilt i förmågan att samordna teknik,
+  verksamhet och användarupplevelse. Det är denna kombination av
+  teknisk kompetens, struktur och kommunikationsförmåga som jag vill
+  bidra med i rollen som
+  <strong>Teknisk produktspecialist inom Passageraranalyssystem</strong>.
+</p>
+
 </footer>
 
     </div>
