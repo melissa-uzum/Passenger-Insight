@@ -67,7 +67,7 @@ export default function App() {
 <p className="pi-summary">
   Projektet demonstrerar ett helhetstänk kring systemövervakning,
   incidenthantering och teknisk analys, kompetenser som är centrala i
-  rollen som <strong>Teknisk produktspecialist till Passageraranalyssystem</strong>
+  rollen som <strong>Teknisk produktspecialist till Passageraranalyssystem</strong> 
   hos Polismyndigheten. Jag har, genom detta projekt, arbetat med att
   designa API:er, simulera driftsscenarier och skapa användarvänliga
   visualiseringar som kombinerar teknisk precision med förståelse för
@@ -87,7 +87,7 @@ export default function App() {
   produktspecialist, särskilt i förmågan att samordna teknik,
   verksamhet och användarupplevelse. Det är denna kombination av
   teknisk kompetens, struktur och kommunikationsförmåga som jag vill
-  bidra med i rollen som
+  bidra med i rollen som 
   <strong>Teknisk produktspecialist inom Passageraranalyssystem</strong>.
 </p>
 
