@@ -2,16 +2,9 @@ import express from "express";
 import cors from "cors";
 import jwt from "jsonwebtoken";
 
-import healthRouter from "./routes/health.js";
-import stationsRouter from "./routes/stations.js";
-import flowsRouter from "./routes/flows.js";
-import incidentsRouter from "./routes/incidents.js";
-import authRouter from "./routes/auth.js";
-
 const app = express();
 
 const DEMO = process.env.DEMO_MODE === "1" || process.env.DEMO_INCIDENTS === "1";
-console.log("Passenger Insight backend starting (DEMO_MODE:", DEMO, ")");
 
 const ORIGIN_ENV = process.env.CORS_ORIGIN || "*";
 const corsOrigin = ORIGIN_ENV === "*" ? true : ORIGIN_ENV;
@@ -95,15 +88,7 @@ if (DEMO) {
     })
   );
 } else {
-
-  import("./app-db.js").then(({ pool }) => {
-    app.use((req, _res, next) => { req.pool = pool; next(); });
-    app.use("/api/auth", authRouter);
-    app.use("/api/health", healthRouter);
-    app.use("/api/stations", stationsRouter);
-    app.use("/api/flows", (req, _res, next) => { req.requireAuth = requireAuth; next(); }, flowsRouter);
-    app.use("/api/incidents", (req, _res, next) => { req.requireAuth = requireAuth; next(); }, incidentsRouter);
-  });
+  app.get("/api/health", (_req, res) => res.status(500).json({ message: "No DB configured" }));
 }
 
 app.get("/api/events", (req, res) => {
@@ -112,6 +97,6 @@ app.get("/api/events", (req, res) => {
 });
 
 const port = process.env.PORT || 1337;
-app.listen(port, () => console.log(`PI backend listening on :${port}`));
+app.listen(port, () => console.log(`PI backend listening on :${port} (demo=${DEMO})`));
 
 export default app;
