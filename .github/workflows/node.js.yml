@@ -19,7 +19,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
@@ -34,7 +33,6 @@ jobs:
           VITE_API_BASE: "https://passenger-insight-backend.onrender.com"
           VITE_USE_DEMO_INCIDENTS: "1"
         run: npm run build
-
 
       - name: SPA 404 fallback
         working-directory: frontend
