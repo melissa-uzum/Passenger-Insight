@@ -1,0 +1,50 @@
+services:
+  db:
+    image: mariadb:11
+    container_name: pi-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./backend/db/schema.sql:/docker-entrypoint-initdb.d/1_schema.sql:ro
+      - ./backend/db/seed.sql:/docker-entrypoint-initdb.d/2_seed.sql:ro
+      - ./backend/db/3_add_flow_source.sql:/docker-entrypoint-initdb.d/3_add_flow_source.sql:ro
+      - ./backend/db/4_seed_recent.sql:/docker-entrypoint-initdb.d/4_seed_recent.sql:ro
+
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb -uroot -proot_password -h 127.0.0.1 -e 'SELECT 1' >/dev/null 2>&1 || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 40
+      start_period: 30s
+
+  backend:
+    build: ./backend
+    container_name: pi-backend
+    env_file: .env
+    ports:
+      - "${BACKEND_PORT:-8088}:1337"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    container_name: pi-frontend
+    env_file: .env
+    environment:
+      - CHOKIDAR_USEPOLLING=1
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/index.html:/app/index.html
+    ports:
+      - "5173:5173"
+    depends_on:
+      backend:
+        condition: service_started
+
+volumes:
+  db_data:

@@ -1,0 +1,24 @@
+CREATE TABLE IF NOT EXISTS station (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  code VARCHAR(16) UNIQUE NOT NULL,
+  name VARCHAR(128) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS flow (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  station_id INT NOT NULL,
+  count_in INT NOT NULL,
+  count_out INT NOT NULL,
+  source ENUM('sensor','manual','import') NOT NULL DEFAULT 'sensor',
+  timestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_flow_station FOREIGN KEY (station_id) REFERENCES station(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS incident (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  severity ENUM('info','warning','critical') NOT NULL DEFAULT 'info',
+  message VARCHAR(512) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE INDEX idx_flow_station_ts ON flow (station_id, timestamp);
