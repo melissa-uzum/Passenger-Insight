@@ -66,10 +66,10 @@ export default function App() {
 
   <p className="pi-summary">
     Projektet demonstrerar ett helhetstänk kring livscykelhantering,
-    incidentövervakning, teknisk felsökning och datadriven analys —
+    incidentövervakning, teknisk felsökning och datadriven analys, 
     kompetenser som är centrala i rollen som
     <strong> Teknisk produktspecialist till Passageraranalyssystem</strong>
-    hos Polismyndigheten. Jag har arbetat med att designa robusta API:er,
+     hos Polismyndigheten. Jag har, i mina studier samt detta projekt, arbetat med att designa robusta API:er,
     simulera driftsscenarier, hantera databasintegritet och skapa
     användarvänliga visualiseringar, vilket visar min förmåga att kombinera
     teknisk precision med förståelse för verksamhetsnytta och systemdrift.
@@ -80,7 +80,7 @@ export default function App() {
     användas för att effektivt övervaka flöden, identifiera avvikelser och
     förebygga incidenter. Jag har även fokuserat på skalbarhet och
     säkerhet, där databasstrukturen och API-designen är byggda med
-    långsiktig stabilitet och spårbarhet i åtanke.
+    långsiktig stabilitet och spårbarhet i åtanke.  
     Detta speglar hur Polismyndighetens IT-avdelning arbetar med
     livscykelhantering, driftsättning och förbättringar av system med höga
     krav på tillgänglighet, säkerhet och kvalitet.
@@ -88,11 +88,11 @@ export default function App() {
 
   <p className="pi-summary">
     Jag ser en stark koppling mellan detta projekt och rollen som
-    produktspecialist — särskilt i förmågan att samordna teknik, verksamhet
+    produktspecialist, särskilt i förmågan att samordna teknik, verksamhet
     och användarupplevelse. Genom att arbeta nära dataflöden, analysera
     loggar, felsöka och visualisera resultat har jag utvecklat en förståelse
     för hur tekniska lösningar kan omsättas till konkreta förbättringar för
-    verksamheten.
+    verksamheten.  
     Det är denna kombination av teknisk kompetens, struktur och
     kommunikationsförmåga som jag vill bidra med i rollen som
     <strong> Teknisk produktspecialist inom Passageraranalyssystem</strong>.
