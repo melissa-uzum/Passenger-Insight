@@ -1,6 +1,5 @@
 import express from "express";
 import cors from "cors";
-import mysql from "mysql2/promise";
 import jwt from "jsonwebtoken";
 
 import healthRouter from "./routes/health.js";
@@ -10,6 +9,9 @@ import incidentsRouter from "./routes/incidents.js";
 import authRouter from "./routes/auth.js";
 
 const app = express();
+
+const DEMO = process.env.DEMO_MODE === "1" || process.env.DEMO_INCIDENTS === "1";
+console.log("Passenger Insight backend starting (DEMO_MODE:", DEMO, ")");
 
 const ORIGIN_ENV = process.env.CORS_ORIGIN || "*";
 const corsOrigin = ORIGIN_ENV === "*" ? true : ORIGIN_ENV;
@@ -27,46 +29,7 @@ app.options("*", cors({ origin: corsOrigin }));
 
 app.use(express.json());
 
-export const pool = await mysql.createPool({
-  host: process.env.DB_HOST || "localhost",
-  port: Number(process.env.DB_PORT || 3306),
-  user: process.env.DB_USER || "root",
-  password: process.env.DB_PASSWORD || "",
-  database: process.env.DB_NAME || "passenger",
-  waitForConnections: true,
-  connectionLimit: 10,
-});
-
-const sseClients = new Set();
-function sseBroadcast(event, payload) {
-  const data = `event: ${event}\ndata: ${JSON.stringify(payload)}\n\n`;
-  for (const res of sseClients) {
-    try { res.write(data); } catch {}
-  }
-}
-app.set("sseBroadcast", sseBroadcast);
-
-app.get("/api/events", (req, res) => {
-  res.setHeader("Content-Type", "text/event-stream");
-  res.setHeader("Cache-Control", "no-cache");
-  res.setHeader("Connection", "keep-alive");
-  res.flushHeaders?.();
-  res.write(`event: ping\ndata: "ok"\n\n`);
-  sseClients.add(res);
-  req.on("close", () => sseClients.delete(res));
-});
-
 const JWT_SECRET = process.env.JWT_SECRET || "dev-secret";
-
-app.use((req, _res, next) => {
-  const hdr = req.headers.authorization || "";
-  const token = hdr.startsWith("Bearer ") ? hdr.slice(7) : "";
-  if (token) {
-    try { req.user = jwt.verify(token, JWT_SECRET); } catch {}
-  }
-  next();
-});
-
 function requireAuth(req, res, next) {
   const hdr = req.headers.authorization || "";
   const token = hdr.startsWith("Bearer ") ? hdr.slice(7) : "";
@@ -79,12 +42,76 @@ function requireAuth(req, res, next) {
   }
 }
 
-app.use("/api/auth", authRouter);
-app.use("/api/health", healthRouter);
-app.use("/api/stations", stationsRouter);
+if (DEMO) {
+  app.get("/api/health", (_req, res) => res.json({ ok: true, demo: true }));
 
-app.use("/api/flows", (req, _res, next) => { req.requireAuth = requireAuth; next(); }, flowsRouter);
-app.use("/api/incidents", (req, _res, next) => { req.requireAuth = requireAuth; next(); }, incidentsRouter);
+  app.get("/api/stations", (_req, res) =>
+    res.json({
+      data: [
+        { id: 1, code: "ARN-T1", name: "Arlanda Terminal 1" },
+        { id: 2, code: "ARN-T5", name: "Arlanda Terminal 5" },
+        { id: 3, code: "CST", name: "Stockholm C" },
+        { id: 4, code: "KST", name: "Kungsholmen Security Transit" },
+      ],
+      demo: true,
+    })
+  );
 
-const port = 1337;
+  app.get("/api/flows/latest", (_req, res) =>
+    res.json({
+      data: [
+        { name: "Arlanda Terminal 1", in_total: 120, out_total: 95 },
+        { name: "Arlanda Terminal 5", in_total: 380, out_total: 260 },
+        { name: "Stockholm C", in_total: 240, out_total: 220 },
+        { name: "Kungsholmen Security Transit", in_total: 48, out_total: 22 },
+      ],
+      demo: true,
+    })
+  );
+
+  app.get("/api/flows/history", (_req, res) => {
+    const now = Date.now();
+    const hours = Array.from({ length: 12 }, (_, i) => new Date(now - i * 3600e3));
+    const data = [];
+    for (const h of hours) {
+      data.push({
+        station_id: 1,
+        name: "Arlanda Terminal 1",
+        bucket: h.toISOString(),
+        in_sum: Math.floor(Math.random() * 100),
+        out_sum: Math.floor(Math.random() * 80),
+      });
+    }
+    res.json({ data, demo: true });
+  });
+
+  app.get("/api/incidents", (_req, res) =>
+    res.json({
+      data: [
+        { severity: "info", message: "Deploy v0.1.0 completed" },
+        { severity: "warning", message: "High inbound at ARN-T5 last hour" },
+      ],
+      demo: true,
+    })
+  );
+} else {
+
+  import("./app-db.js").then(({ pool }) => {
+    app.use((req, _res, next) => { req.pool = pool; next(); });
+    app.use("/api/auth", authRouter);
+    app.use("/api/health", healthRouter);
+    app.use("/api/stations", stationsRouter);
+    app.use("/api/flows", (req, _res, next) => { req.requireAuth = requireAuth; next(); }, flowsRouter);
+    app.use("/api/incidents", (req, _res, next) => { req.requireAuth = requireAuth; next(); }, incidentsRouter);
+  });
+}
+
+app.get("/api/events", (req, res) => {
+  res.setHeader("Content-Type", "text/event-stream");
+  res.write(`event: ping\ndata: "ok"\n\n`);
+});
+
+const port = process.env.PORT || 1337;
 app.listen(port, () => console.log(`PI backend listening on :${port}`));
+
+export default app;
